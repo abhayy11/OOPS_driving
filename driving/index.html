@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HIGHWAY DRIVE — OOP CHALLENGE</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Rajdhani:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="game-wrapper">
+    <!-- Top HUD Bar -->
+    <header class="hud-bar" id="hudBar">
+      <div class="hud-item">
+        <span class="hud-label">SCORE</span>
+        <span class="hud-val" id="hudScore">0</span>
+      </div>
+      <div class="hud-item">
+        <span class="hud-label">DISTANCE</span>
+        <span class="hud-val" id="hudDistance">0 m</span>
+      </div>
+      <div class="hud-item">
+        <span class="hud-label">SPEED</span>
+        <span class="hud-val" id="hudSpeed">60 km/h</span>
+      </div>
+      <div class="hud-item">
+        <span class="hud-label">BEST</span>
+        <span class="hud-val" id="hudBest">0</span>
+      </div>
+      <div class="hud-item hud-actions">
+        <button id="soundBtn" class="hud-btn" title="Toggle Sound">🔊</button>
+        <button id="pauseBtn" class="hud-btn" title="Pause Game (Spacebar)">⏸️</button>
+      </div>
+    </header>
+
+    <!-- Main Game Canvas Container -->
+    <div class="canvas-container">
+      <canvas id="gameCanvas" width="460" height="700"></canvas>
+
+      <!-- START SCREEN OVERLAY -->
+      <div class="overlay-screen active" id="startScreen">
+        <div class="modal-card">
+          <div class="badge">ARCADE SIMULATOR</div>
+          <h1 class="title-primary">HIGHWAY DRIVE</h1>
+          <h2 class="title-sub">OOP CHALLENGE</h2>
+          
+          <div class="instructions-panel">
+            <p class="summary-text">Drive your blue car through highway traffic! Avoid collisions, increase your distance score, and test your Python OOP knowledge when emergencies happen.</p>
+            
+            <div class="controls-guide">
+              <div class="ctrl-row">
+                <span class="key-cap">◀</span>
+                <span class="key-cap">▶</span>
+                <span class="ctrl-desc">Steer Left / Right Lanes</span>
+              </div>
+              <div class="ctrl-row">
+                <span class="key-cap">▲</span>
+                <span class="key-cap">▼</span>
+                <span class="ctrl-desc">Accelerate / Brake</span>
+              </div>
+              <div class="ctrl-row">
+                <span class="key-cap wide">SPACEBAR</span>
+                <span class="ctrl-desc">Pause / Resume Game</span>
+              </div>
+            </div>
+
+            <div class="best-score-display">
+              🏆 ALL-TIME HIGH SCORE: <span id="startBestScore">0</span>
+            </div>
+          </div>
+
+          <button id="startGameBtn" class="primary-btn">START GAME</button>
+        </div>
+      </div>
+
+      <!-- PAUSE SCREEN OVERLAY -->
+      <div class="overlay-screen" id="pauseScreen">
+        <div class="modal-card mini-card">
+          <div class="badge">GAME PAUSED</div>
+          <h2 class="paused-title">PAUSED</h2>
+          <p class="paused-desc">Take a breather! Highway traffic is on hold.</p>
+          <button id="resumeBtn" class="primary-btn">RESUME (SPACE)</button>
+        </div>
+      </div>
+
+      <!-- QUIZ SCREEN OVERLAY (CRASH / COLLISION) -->
+      <div class="overlay-screen" id="quizScreen">
+        <div class="modal-card quiz-card">
+          <div class="crash-alert-header">
+            <span class="siren-icon">🚨</span>
+            <h2 class="crash-title">OOPS! YOU CRASHED!</h2>
+            <span class="siren-icon">🚨</span>
+          </div>
+
+          <p class="quiz-subtext">Answer this Python OOP question correctly to resume driving with your score intact!</p>
+
+          <div class="quiz-box">
+            <span class="question-tag">PYTHON OOP QUESTION:</span>
+            <div class="question-text" id="quizQuestionText">Loading question...</div>
+          </div>
+
+          <form id="quizForm" onsubmit="return false;">
+            <div class="input-wrapper">
+              <input 
+                type="text" 
+                id="quizAnswerInput" 
+                placeholder="Enter ONE WORD answer..." 
+                autocomplete="off" 
+                autocapitalize="off" 
+                spellcheck="false"
+                required
+              />
+            </div>
+            
+            <div class="feedback-message" id="quizFeedback"></div>
+
+            <button type="submit" id="submitAnswerBtn" class="primary-btn quiz-submit-btn">SUBMIT ANSWER</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- GAME OVER SCREEN OVERLAY -->
+      <div class="overlay-screen" id="gameOverScreen">
+        <div class="modal-card">
+          <div class="badge danger-badge">CHALLENGE FAILED</div>
+          <h1 class="gameover-title">WRONG ANSWER! GAME OVER!</h1>
+          
+          <div class="results-stats">
+            <div class="stat-box">
+              <span class="stat-label">FINAL SCORE</span>
+              <span class="stat-val" id="finalScoreVal">0</span>
+            </div>
+            <div class="stat-box">
+              <span class="stat-label">DISTANCE</span>
+              <span class="stat-val" id="finalDistVal">0 m</span>
+            </div>
+            <div class="stat-box highlight">
+              <span class="stat-label">BEST RECORD</span>
+              <span class="stat-val" id="finalBestVal">0</span>
+            </div>
+          </div>
+
+          <button id="restartGameBtn" class="primary-btn pulse-glow">RESTART GAME</button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Bottom Controls Bar for Mobile / Quick Click -->
+    <footer class="touch-controls">
+      <button class="touch-btn" id="touchLeft" aria-label="Steer Left">◀ LEFT</button>
+      <button class="touch-btn" id="touchBrake" aria-label="Brake">▼ BRAKE</button>
+      <button class="touch-btn" id="touchGas" aria-label="Accelerate">▲ GAS</button>
+      <button class="touch-btn" id="touchRight" aria-label="Steer Right">RIGHT ▶</button>
+    </footer>
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>
