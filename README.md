@@ -4,18 +4,6 @@ A browser-based highway driving game developed using **HTML, CSS, and JavaScript
 
 The game allows players to drive on a highway, avoid traffic, earn scores, and challenge themselves as the difficulty increases. It demonstrates JavaScript-based game development, object-oriented programming concepts, keyboard event handling, and browser storage.
 
-## 🎮 Project Preview
-
-<!-- Add your actual gameplay screenshots to the screenshots folder -->
-
-### Gameplay
-![Highway Drive Gameplay](screenshots/gameplay.png)
-
-### Game Start Screen
-![Game Start Screen](screenshots/start-screen.png)
-
-### Game Over Screen
-![Game Over Screen](screenshots/game-over.png)
 
 ## ✨ Features
 
